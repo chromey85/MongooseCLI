@@ -10,11 +10,47 @@ exports.addMovie = async (title, actor, director) => {
     }
 }
 
-exports.list = async () => {
+exports.list = async (query) => {
     try {
-        return await Movie.find({});
+        return await Movie.find({query});
     } catch (error) {
         console.log(error, "Something went wrong")
+    }
+}
+
+// exports.find1 = async (title, actor, director) => {
+//     try {
+//         return await Movie.findOne(
+//             {title: title},
+//             {actor: actor}, 
+//             {director:director}
+//             );
+//     } catch (error) {
+//         console.log(error, "I can't find anything")
+//     }
+// }
+
+exports.find1 = async (findTitle, findActor, findDirector, newTitle, newActor, newDirector) => {
+    //console.log("drop in: ", findTitle, findActor, findDirector, newTitle, newActor, newDirector)
+    const filter = {}
+    if (findTitle) { filter.title = findTitle }
+    if (findActor) { filter.actor = findActor }
+    if (findDirector) { filter.director = findDirector }
+    // console.log("filter: ", filter)
+
+    const find1 = {}
+    if (newTitle) { find1.title = newTitle }
+    if (newActor) { find1.actor = newActor }
+    if (newDirector) { find1.director = newDirector }
+    // console.log("update: ", find1)
+
+    try {
+        return await Movie.findOne(
+            { ...filter },
+            { ...find1 }
+        )
+    } catch (error) {
+        console.log(error, "I can't find anything")
     }
 }
 
